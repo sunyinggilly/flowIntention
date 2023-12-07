@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+    <head>
+        <meta charset="utf-8">
+        <style type="text/css">
+            ul,li{list-style: none;margin:0;padding:0;float:left;}
+            body, html,#panel{width: 100%; height: 100%; overflow: hidden; margin:0; font-family:"微软雅黑";}
+            #container{width: 100%; height: 100%; float:left;font-family:"微软雅黑";}
+            #control{width: 100%; height: 5%; float:left;margin:0; font-family:"微软雅黑";}
+            #network{width: 100%; height: 95%; float:left;margin:0; font-family:"微软雅黑";}
+        </style>
+    </head>
+    <body style="height: 100%; margin: 0">
+        <div id="container" style="height: 100%">
+            <div id="network"></div>
+            <div id="control">
+                <form action="{{model_name}}" method="post">
+                    {% csrf_token %}
+                    Threshold: <input type="text" name="Threshold"  value="{{threshold}}"/>
+                    Coarse: <input type="text" name="Coarse"  value="{{coarse}}"/>
+                    Time: <input type="text" name="Time"  value="{{time}}"/>
+                    <input type="submit" value="Submit"/>
+                </form>
+                <iframe id="iframe" name="iframe" style="display:none;"></iframe>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.js"></script>
+    <!-- Uncomment this line if you want to dataTool extension
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/extension/dataTool.min.js"></script>
+    -->
+    <!-- Uncomment this line if you want to use gl extension
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl@2.0.0-rc.1/dist/echarts-gl.min.js"></script>
+    -->
+    <!-- Uncomment this line if you want to echarts-stat extension
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+    -->
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js?_v_=1598903772045"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/map/js/world.js"></script> -->
+
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=H1g0EoBBPah7LTRTVhpEcKaLgWquGgfE"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/extension/bmap.min.js"></script>
+
+    <script type="text/javascript">
+
+var data_input = {{ nodes|safe }};
+var links_input = {{ links|safe }};
+
+var dom_network = document.getElementById("network");
+var networkChart = echarts.init(dom_network);
+var networkOption;
+
+var app = {};
+
+networkOption = {
+    //backgroundColor: '#A9A9A9',
+	visualMap: [{
+            type: 'continuous',
+            inRange: {
+              color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+            }
+        }],
+    tooltip: {},
+    animationDurationUpdate: 1500,
+    animationEasingUpdate: 'quinticInOut',
+    bmap: {
+        center: [111.784248,32.809522], // 百度地图中心经纬度
+        zoom: 6,
+        // 是否开启拖拽缩放，可以只设置 'scale' 或者 'move'
+        roam: true,
+        mapStyle: {
+              'styleJson': [
+                {
+                  'featureType': 'water',
+                  'elementType': 'all',
+                  'stylers': {
+                    'color': '#031628'
+                  }
+                },
+                {
+                  'featureType': 'land',
+                  'elementType': 'geometry',
+                  'stylers': {
+                    'color': '#000102'
+                  }
+                },
+                {
+                  'featureType': 'highway',
+                  'elementType': 'all',
+                  'stylers': {
+                    'visibility': 'off'
+                  }
+                },
+                {
+                  'featureType': 'arterial',
+                  'elementType': 'geometry.fill',
+                  'stylers': {
+                    'color': '#000000'
+                  }
+                },
+                {
+                  'featureType': 'arterial',
+                  'elementType': 'geometry.stroke',
+                  'stylers': {
+                    'color': '#0b3d51'
+                  }
+                },
+                {
+                  'featureType': 'local',
+                  'elementType': 'geometry',
+                  'stylers': {
+                    'color': '#000000'
+                  }
+                },
+                {
+                  'featureType': 'railway',
+                  'elementType': 'geometry.fill',
+                  'stylers': {
+                    'color': '#000000'
+                  }
+                },
+                {
+                  'featureType': 'railway',
+                  'elementType': 'geometry.stroke',
+                  'stylers': {
+                    'color': '#08304b'
+                  }
+                },
+                {
+                  'featureType': 'subway',
+                  'elementType': 'geometry',
+                  'stylers': {
+                    'lightness': -70
+                  }
+                },
+                {
+                  'featureType': 'building',
+                  'elementType': 'geometry.fill',
+                  'stylers': {
+                    'color': '#000000'
+                  }
+                },
+                {
+                  'featureType': 'all',
+                  'elementType': 'labels.text.fill',
+                  'stylers': {
+                    'color': '#857f7f'
+                  }
+                },
+                {
+                  'featureType': 'all',
+                  'elementType': 'labels.text.stroke',
+                  'stylers': {
+                    'color': '#000000'
+                  }
+                },
+                {
+                  'featureType': 'building',
+                  'elementType': 'geometry',
+                  'stylers': {
+                    'color': '#022338'
+                  }
+                },
+                {
+                  'featureType': 'green',
+                  'elementType': 'geometry',
+                  'stylers': {
+                    'color': '#062032'
+                  }
+                },
+                {
+                  'featureType': 'boundary',
+                  'elementType': 'all',
+                  'stylers': {
+                    'color': '#465b6c'
+                  }
+                },
+                {
+                  'featureType': 'manmade',
+                  'elementType': 'all',
+                  'stylers': {
+                    'color': '#022338'
+                  }
+                },
+                {
+                  'featureType': 'label',
+                  'elementType': 'all',
+                  'stylers': {
+                    'visibility': 'off'
+                  }
+                }
+              ]
+            }	
+    },
+    series: [
+        {
+            type: 'lines',
+            coordinateSystem: 'bmap',
+            zlevel: 1,
+            effect: {
+                show: true,
+                period: 6,
+                trailLength: 0.7,
+                //color: '#fff',
+                symbolSize: 5
+            },
+            lineStyle: {
+                width: 3,
+                curveness: 0.2
+            },
+            data: links_input,
+        },
+        {
+            type: 'effectScatter',
+            coordinateSystem: 'bmap',
+            zlevel: 2,
+            rippleEffect: {
+                brushType: 'stroke'
+            },
+            label: {
+                normal: {
+                    //show: true,
+                    position: 'right',
+                    formatter: '{b}'
+                }
+            },
+            symbolSize: 10,
+            // symbolSize: function(val) {
+            //     return val[2] / 8;
+            // },
+            data: data_input,
+        }
+    ]};
+if (networkOption && typeof networkOption === 'object') {
+    networkChart.setOption(networkOption);
+}
+    </script>
+</html>
+    
