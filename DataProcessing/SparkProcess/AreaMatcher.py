@@ -231,26 +231,4 @@ def print_lst(lst):
 
 if __name__ == "__main__":
     root, nodes, _node_meta, dict_coverage, word_dct = init_matcher("%s/city/area_dict.pkl" % DATA_PATH, coarse_bottom='region')
-    # print(find_keykeywords(root, nodes, _node_meta, dict_coverage, '欢迎来到吉林'))
-    # ac = ACAutomaton('a', 'ab', 'bc', 'abc', 'bcd')
-    # print(ac.search('abcd'))
-    # print(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '浙江省杭州市', [126.534137, 45.811235], '黑龙江省'))
-
-    # print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '浙江省杭州市', [126.534137, 45.811235], '黑龙江省'))
-    # print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '吉林', [126.534137, 45.811235], '上海市'))
-    # print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '绍兴社区工作者招聘;;2020年浙江省社区工作者考试公告/大纲_浙江省社区考试', [126.534137, 45.811235], '上海市'))
-    # print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '2019浙江嘉兴学院招聘15人公告;;2019浙江嘉兴学院招聘15人公告-事业单位招聘考试网', [126.534137, 45.811235], '上海市'))
-    # print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '温岭人才招聘网;;温岭人才网-温岭人才交流中心唯一官方网站|浙江人才网', [126.534137, 45.811235], '上海市'))
-    # print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '东海县医院招聘', [126.534137, 45.811235], '上海市'))
-    # # print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '找工作的合作司机;;\"\"', [101.773523, 36.625934], '青海省'))
-    # print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '四川罗江金山招聘;;罗江县金山中心卫生院招聘招聘罗江县金山中心卫生院招聘信息-58...', [101.773523, 36.625934], '青海省'))
-    # print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '泰山瑞豹招聘;;德州质检员招聘信息|山东泰山瑞豹复合材料有限公司招聘信息-齐鲁人才', [101.773523, 36.625934], '青海省'))
-    # print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '吉林省双辽市找工作保洁;;\"\"', [101.773523, 36.625934], '青海省'))
-    # print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '兴国人才网最新招聘信息网;;\"\"', [101.773523, 36.625934], '江西省'))
-    # print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '江西省兴国县招聘信息;;\"\"', [101.773523, 36.625934], '江西省'))
-    
-    # print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '张家口市桥东找工作', [114.889699,40.776516], '河北省'))
-    # print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '贵阳市白云区计划招聘教师266人、保育员136人!;;2020贵阳白云区计划招聘教师266人保育员136人!-师迅宝教师', [11557837.708634032, 2918380.2754198536], '云南省'))
-    # print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '徐工集团招聘组装;;徐工集团招聘装配工普工5000以上长白班-徐州鼓楼金山', [13034138.488165058, 4303926.287801762], '山东省'))
-    print_lst(match_query(root, nodes, _node_meta, dict_coverage, word_dct, '南方医院太和分院招聘;;南方医院太和分院最新招聘职位_丁香人才网', [12613205.509024294, 2636651.5744090592], '广东省'))
-    
+   

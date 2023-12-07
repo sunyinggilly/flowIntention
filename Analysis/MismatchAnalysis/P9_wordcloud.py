@@ -70,13 +70,6 @@ def word_cloud(frequency_dict, out_path):
     wc.generate_from_frequencies(adjusted_freq_dict)
     wc.to_file(out_path)
 
-industry_translate = {'IT': 'IT', '商务服务': 'Business Service', '文化体育娱乐': 'Entertainment', 
-                      '金融保险': 'FinInsur', 
-                      '医药卫生': 'Healthcare', '日化百货-消费零售-服装': 'Retail & Apparel', '教育': 'Education', 
-                      '工业与制造': 'IndManu', 
-                      '交通仓储': 'Logistics', '房产建筑': 'RealCon', '汽车': 'Automotive', 
-                      '生活服务': 'LifeSer', '农林牧渔': 'FFHF',
-                      '住宿旅游': 'TourLod', '广告营销': 'Advertising', '餐饮': 'Restaurant'}
 
 if __name__ == "__main__":
     mode = 'industry'
@@ -88,7 +81,7 @@ if __name__ == "__main__":
     df2 = pd.merge(df_demand, df_supply, on=['time', 'region', 'type'], suffixes=['_demand', '_supply'])
     df2['rank_diff'] = df2['rank_demand'] - df2['rank_supply']
     df2 = df2[['time', 'region', 'type', 'rank_demand', 'rank_supply', 'rank_diff']]
-    df2['type'] = df2['type'].apply(lambda x: industry_translate[x])
+    # df2['type'] = df2['type'].apply(lambda x: industry_translate[x])
     for region in region_lst:
         for time in time_lst:
             draw(df2, region, time, OUT_MISMATCH_PATH)
